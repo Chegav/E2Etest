@@ -1,0 +1,58 @@
+@Library('jenkins-library@master')_
+
+pipeline {
+    agent {
+        label 'agent-1'
+    }
+    environment {
+        CHANNEL_NOTIFY  = "qa-automation"
+        AZ_USER         = credentials('az-user')
+        AZ_PASSWORD     = credentials('az-password')
+
+    }
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['integration', 'certification', 'production'],
+            description: 'Select environment.'
+        )
+        string(name: 'OPTIONS', defaultValue: '', description: 'Set cucumber options. Ej: --tags @TagDevopsTest1')
+    }
+    stages {
+        stage("Test") {
+            steps {
+                script {
+                    notification(type:'started', env:CHANNEL_NOTIFY)
+                        cucumberTest(environment: ENVIRONMENT, options: OPTIONS)
+                    //}
+                }
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                def reportPath  = "target/site/cucumber-reports/cucumber-html-reports/"
+                def reportUrl   = null
+
+                    reportUrl = deployStatic.azure(
+                        username: AZ_USER,
+                        password: AZ_PASSWORD,
+                        storage: "name_storage_devops",
+                        source: reportPath,
+                        destination: "jenkins/${JOB_NAME}/${BUILD_NUMBER}/cucumber/r1",
+                        linkText: "Cucumber Report",
+                        linkIndex: "overview-features.html",
+                        subscription: AZ_SUBSCRIPTION
+                    )
+                notification(type:'success', env:CHANNEL_NOTIFY, details: " [Cucumber report](${reportUrl})")
+            }
+        }
+        failure {
+           notification(type:'failure', env:CHANNEL_NOTIFY)
+        }
+        cleanup {
+            cleanWs()
+        }
+    }
+}

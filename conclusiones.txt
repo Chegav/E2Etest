@@ -1,0 +1,36 @@
+Hallazgos y Conclusiones
+
+Hallazgos
+
+1. Inicio de Sesión:
+   - La automatización del inicio de sesión fue exitosa utilizando las credenciales `standard_user` y `secret_sauce`. El script pudo identificar los campos de usuario y contraseña y realizar el inicio de sesión sin problemas.
+
+2. Agregar Productos al Carrito:
+   - El script logró identificar y agregar dos productos aleatorios al carrito. La función `random.sample()` se utilizó eficazmente para seleccionar productos al azar, y los botones de "Añadir al carrito" fueron correctamente detectados mediante XPath.
+
+3. Visualizar el Carrito:
+   - La navegación al carrito y la selección del botón de "Checkout" se completaron sin inconvenientes. El script interactuó correctamente con los elementos de la página para proceder con la compra.
+
+4. Completar el Formulario de Compra:
+   - El formulario de compra fue llenado con éxito, incluyendo el nombre, apellido y código postal. Los campos se completaron sin errores y el botón de "Continuar" funcionó como se esperaba.
+
+5. Finalización de la Compra y Confirmación:
+   - La compra se finalizó correctamente y se mostró el mensaje de confirmación "Thank you for your order!". La verificación de este mensaje de confirmación confirma que el flujo de compra se completó exitosamente.
+
+
+Conclusiones
+
+1. Fiabilidad del Script:
+   - El script de automatización es fiable y ejecuta el flujo de compra en Sauce Demo de manera consistente. El uso de Selenium para interactuar con los elementos de la página demostró ser efectivo y adecuado para este tipo de pruebas.
+
+2. Selección de Productos Aleatorios:
+   - La selección aleatoria de productos y su adición al carrito se realizó de manera eficiente. Esto demuestra la capacidad del script para manejar elementos dinámicos y realizar acciones de forma aleatoria.
+
+3. Manejo de Tiempos de Espera:
+   - Los tiempos de espera (`time.sleep()`) en el script fueron suficientes para permitir que los elementos de la página se cargaran completamente antes de interactuar con ellos. Sin embargo, en una implementación más robusta, se podría considerar el uso de esperas explícitas en lugar de esperas fijas.
+
+4. Mantenimiento y Escalabilidad:
+   - El script es fácil de mantener y escalar. Se puede ajustar para probar otros flujos de compra o realizar pruebas en diferentes escenarios de usuario. La estructura del código es clara y permite modificar fácilmente los elementos o pasos de la prueba.
+
+5. Recomendaciones:
+   - Para mejorar la robustez del script, se recomienda implementar esperas explícitas para los elementos en lugar de usar `time.sleep()`. Esto garantizará que el script sea menos susceptible a problemas relacionados con la velocidad de carga de la página.
